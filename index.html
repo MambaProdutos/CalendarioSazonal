@@ -9,13 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --lakers-purple: #552583;
-      --lakers-deep-purple: #2c124b;
-      --lakers-gold: #FDB927;
-      --lakers-soft-gold: #ffdd75;
-      --lakers-violet: #6f3eb7;
-      --text-light: #f3eaff;
-      --text-muted: #d4c9ef;
+      --purple-900: #1e0d35;
+      --purple-800: #2b1346;
+      --purple-700: #432366;
+      --purple-600: #5d3290;
+      --purple-overlay: rgba(14, 5, 31, 0.75);
+      --gold-500: #fdb927;
+      --gold-300: #ffe18c;
+      --text-main: #f5edff;
+      --text-muted: #d9ceff;
+      --danger: #f2707a;
     }
 
     * {
@@ -25,6 +28,48 @@
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, rgba(253, 185, 39, 0.1) 0%, transparent 55%),
+        linear-gradient(180deg, var(--purple-900) 0%, var(--purple-600) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 4.5rem 1.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(253, 185, 39, 0.2), transparent 65%);
+      z-index: -1;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
+      letter-spacing: 0.22rem;
+      text-transform: uppercase;
+    }
+
+    header h1 span {
+      color: var(--gold-500);
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 1.4rem auto 0;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
       background: linear-gradient(180deg, var(--lakers-deep-purple) 0%, var(--lakers-purple) 100%);
       color: var(--text-light);
     }
@@ -63,1224 +108,829 @@
       padding: 0 1.5rem 4rem;
     }
 
-    section.intro {
-      background-color: rgba(35, 16, 60, 0.6);
-      border: 1px solid rgba(253, 185, 39, 0.2);
-      border-radius: 1.25rem;
-      padding: 2rem;
-      margin-bottom: 3rem;
-      box-shadow: 0 20px 50px rgba(13, 4, 30, 0.45);
-    }
-
-    section.intro h2 {
-      margin-top: 0;
-      font-size: 2rem;
-      color: var(--lakers-soft-gold);
-    }
-
-    section.intro p {
-      line-height: 1.7;
-      margin-bottom: 1rem;
-      color: var(--text-muted);
-    }
-
-    nav.month-nav {
-      margin: 3rem 0;
-      background-color: rgba(44, 18, 75, 0.9);
-      border: 1px solid rgba(253, 185, 39, 0.35);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 15px 40px rgba(17, 6, 40, 0.4);
-    }
-
-    nav.month-nav h2 {
-      margin-top: 0;
-      font-size: 1.5rem;
-      color: var(--lakers-soft-gold);
-      text-transform: uppercase;
-      letter-spacing: 0.15rem;
-    }
-
-    nav.month-nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 1.5rem 0 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.75rem;
-    }
-
-    nav.month-nav a {
-      display: block;
-      padding: 0.75rem 1rem;
-      border-radius: 999px;
-      background: rgba(253, 185, 39, 0.15);
-      text-align: center;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-    }
-
-    nav.month-nav a:hover,
-    nav.month-nav a:focus {
-      background: rgba(253, 185, 39, 0.35);
-      transform: translateY(-3px);
-    }
-
-    section.calendar {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-
-    .month-block {
-      background: rgba(32, 12, 58, 0.78);
-      border-radius: 1.5rem;
+    .calendar-shell {
+      background: rgba(23, 10, 42, 0.75);
       border: 1px solid rgba(253, 185, 39, 0.25);
-      box-shadow: 0 18px 40px rgba(15, 5, 36, 0.55);
-      padding: 1.75rem;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 35px 80px rgba(8, 3, 20, 0.6);
     }
 
-    .month-header h3 {
-      margin: 0 0 1.5rem;
-      font-size: 1.8rem;
-      letter-spacing: 0.12rem;
+    .calendar-shell h2 {
+      margin: 0 0 1rem;
       text-transform: uppercase;
-      color: var(--lakers-gold);
+      letter-spacing: 0.18rem;
+      color: var(--gold-300);
+      font-size: 1.6rem;
     }
 
-    .calendar-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .calendar-table th {
-      font-weight: 600;
+    .calendar-shell p.helper-text {
+      margin: 0 0 2rem;
       color: var(--text-muted);
-      font-size: 0.85rem;
-      letter-spacing: 0.08rem;
+      line-height: 1.6;
+    }
+
+    .month-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background: rgba(40, 16, 70, 0.85);
+      border: 1px solid rgba(253, 185, 39, 0.25);
+      border-radius: 18px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .month-switcher button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(253, 185, 39, 0.15);
+      color: var(--gold-500);
+      border: 1px solid rgba(253, 185, 39, 0.4);
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05rem;
       text-transform: uppercase;
-      padding-bottom: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .month-switcher button span.icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .month-switcher button:hover,
+    .month-switcher button:focus {
+      background: rgba(253, 185, 39, 0.3);
+      color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
+    .month-title {
+      text-align: center;
+    }
+
+    .month-title small {
+      display: block;
+      color: var(--text-muted);
+      letter-spacing: 0.18rem;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .month-title strong {
+      display: block;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    .day-names {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.12rem;
+      color: var(--text-muted);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 1.2rem;
     }
 
     .day {
-      background-color: rgba(111, 62, 183, 0.28);
-      border-radius: 1rem;
-      min-height: 92px;
-      padding: 0.75rem;
-      vertical-align: top;
+      background: rgba(76, 48, 126, 0.28);
+      border-radius: 18px;
+      min-height: 130px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      border: 1px solid rgba(253, 185, 39, 0.18);
       position: relative;
-      border: 1px solid rgba(255, 221, 117, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .day .date {
+    .day.placeholder {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .day-number {
+      font-size: 1.6rem;
       font-weight: 700;
-      font-size: 1.15rem;
-      display: block;
     }
 
-    .day.empty {
+    .day.is-event {
+      background: linear-gradient(160deg, rgba(253, 185, 39, 0.92), rgba(255, 225, 140, 0.92));
+      color: #231236;
+      border: 1px solid rgba(253, 185, 39, 0.95);
+      box-shadow: 0 12px 30px rgba(253, 185, 39, 0.35);
+      cursor: pointer;
+    }
+
+    .day.is-event .day-number {
+      color: #1c1030;
+      transition: opacity 0.2s ease;
+    }
+
+    .day.is-event .event-labels {
+      width: 100%;
+      margin-top: 0.45rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .day.is-event .event-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05rem;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .day.is-event:hover,
+    .day.is-event:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(253, 185, 39, 0.55);
+    }
+
+    @keyframes event-blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.25;
+      }
+    }
+
+    .day.is-event:hover .day-number,
+    .day.is-event:focus-visible .day-number {
+      animation: event-blink 0.9s linear infinite;
+    }
+
+    .legend {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .legend .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 2, 24, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 1000;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      width: min(640px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: rgba(33, 15, 60, 0.95);
+      border: 1px solid rgba(253, 185, 39, 0.45);
+      border-radius: 22px;
+      padding: 2.5rem;
+      box-shadow: 0 45px 90px rgba(5, 1, 14, 0.65);
+      animation: pop 0.24s ease-out;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(253, 185, 39, 0.15);
+      border: 1px solid rgba(253, 185, 39, 0.4);
+      color: var(--gold-500);
+      border-radius: 999px;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus {
+      background: rgba(253, 185, 39, 0.35);
+      color: var(--text-main);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14rem;
+      color: var(--gold-300);
+    }
+
+    .modal-header p {
+      margin: 0.75rem 0 1.5rem;
+      color: var(--text-muted);
+    }
+
+    .modal-section + .modal-section {
+      margin-top: 1.75rem;
+    }
+
+    .modal-section h4 {
+      margin: 0 0 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12rem;
+      color: var(--gold-500);
+      font-size: 0.95rem;
+    }
+
+    .modal-section p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .modal-event-title {
+      margin: 1.75rem 0 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12rem;
+      color: var(--gold-300);
+      font-size: 1.15rem;
+    }
+
+    .modal-event-date {
+      margin: 0 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .modal-divider {
+      border: none;
+      height: 1px;
+      background: rgba(253, 185, 39, 0.25);
+      margin: 2rem 0;
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .chip {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(253, 185, 39, 0.18);
+      border: 1px solid rgba(253, 185, 39, 0.35);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.05rem;
+    }
+
+    .timing-box {
+      background: linear-gradient(135deg, rgba(253, 185, 39, 0.25), rgba(253, 185, 39, 0.05));
+      border: 1px solid rgba(253, 185, 39, 0.35);
+      border-radius: 18px;
+      padding: 1.4rem;
+    }
+
+    .timing-box strong {
+      display: block;
+      font-size: 2.1rem;
+      letter-spacing: 0.1rem;
+      color: var(--gold-300);
+      margin-top: 0.35rem;
+    }
+
+    .mini-calendars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .mini-month {
+      background: rgba(19, 7, 38, 0.85);
+      border: 1px solid rgba(253, 185, 39, 0.2);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .mini-month h5 {
+      margin: 0 0 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      font-size: 0.85rem;
+      color: var(--gold-500);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+
+    .mini-grid span {
+      padding: 0.35rem 0.25rem;
+      border-radius: 8px;
+      background: rgba(82, 57, 129, 0.25);
+      border: 1px solid transparent;
+    }
+
+    .mini-grid span.label {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      font-weight: 600;
+      letter-spacing: 0.08rem;
+    }
+
+    .mini-grid span.empty {
       background: transparent;
       border: none;
     }
 
-    .has-event {
-      background: linear-gradient(160deg, rgba(253, 185, 39, 0.85), rgba(255, 220, 120, 0.85));
-      color: #1f1430;
-      border: 1px solid rgba(253, 185, 39, 0.9);
-      box-shadow: 0 0 18px rgba(253, 185, 39, 0.4);
-    }
-
-    .has-event .date {
-      color: #1f1430;
-    }
-
-    .event-chip {
-      margin-top: 0.35rem;
-      display: inline-block;
-      padding: 0.25rem 0.5rem;
-      border-radius: 999px;
-      background: rgba(32, 12, 58, 0.18);
-      color: inherit;
+    .mini-grid span.planning {
+      background: rgba(253, 185, 39, 0.18);
+      border: 1px solid rgba(253, 185, 39, 0.35);
+      color: var(--gold-300);
       font-weight: 700;
-      font-size: 0.7rem;
-      letter-spacing: 0.05rem;
-      text-transform: uppercase;
     }
 
-    .month-highlights {
-      background-color: rgba(42, 17, 70, 0.65);
-      border-radius: 1.25rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px solid rgba(253, 185, 39, 0.22);
+    .mini-grid span.event-day {
+      background: linear-gradient(160deg, rgba(253, 185, 39, 0.9), rgba(255, 225, 140, 0.9));
+      border: 1px solid rgba(253, 185, 39, 0.95);
+      color: #1d1032;
+      font-weight: 800;
     }
 
-    .month-highlights h4 {
-      margin: 0 0 1rem;
-      color: var(--lakers-soft-gold);
-      letter-spacing: 0.08rem;
-      text-transform: uppercase;
-    }
-
-    .month-highlights ul {
-      margin: 0;
-      padding-left: 1.1rem;
+    .mini-legend {
+      margin-top: 1rem;
       display: flex;
-      flex-direction: column;
       gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
-    .month-highlights li {
-      line-height: 1.6;
+    .mini-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
-    .month-highlights em {
-      font-style: normal;
-      color: var(--lakers-gold);
-      font-weight: 600;
+    .mini-legend .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
     }
 
-    .month-highlights .focus,
-    .month-highlights .categories {
-      font-weight: 600;
-      color: var(--lakers-soft-gold);
-    }
-
-    footer {
-      margin: 4rem auto 2rem;
-      text-align: center;
-      color: rgba(243, 234, 255, 0.7);
-      font-size: 0.9rem;
-    }
-
-    @media (min-width: 900px) {
-      section.calendar {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 2rem;
+    @media (max-width: 768px) {
+      .calendar-shell {
+        padding: 1.75rem;
       }
-    }
 
-    @media (min-width: 1280px) {
-      section.calendar {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      .day {
+        min-height: 110px;
+        padding: 0.75rem;
+      }
+
+      .month-switcher {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .month-switcher button {
+        justify-content: center;
+      }
+
+      .month-switcher button span.icon {
+        font-size: 1.35rem;
+      }
+
+      .day-names,
+      .calendar-grid {
+        gap: 0.75rem;
+      }
+
+      .day.is-event::after {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
+  <header>
     <h1><span>Marketplace</span> Strategy 2026</h1>
-    <p>Calendário estratégico totalmente estruturado em HTML para planejar campanhas sazonais de alto impacto ao longo de 2026. Visualize os picos comerciais, organize a preparação com antecedência e alinhe squads com foco em resultados.</p>
+    <p>
+      Calendário estratégico com todos os marcos sazonais do ano. Use as setas evidenciadas para navegar mês a mês e clique nas datas em dourado para ver as ações recomendadas, categorias prioritárias e o plano visual de preparação.
+    </p>
   </header>
+
   <main>
-    <section class="intro">
-      <h2>Como usar este calendário</h2>
-      <p>Cada mês apresenta um calendário estático com os principais marcos de vendas destacados em dourado. Utilize a seção de destaques para identificar o foco comercial e as categorias prioritárias, além do tempo recomendado de preparação para ativações e campanhas.</p>
-      <p>O layout foi elaborado integralmente em HTML e CSS, sem dependência de bibliotecas externas ou scripts, garantindo visualização estável em qualquer ambiente e facilitando personalizações futuras.</p>
-    </section>
+    <section class="calendar-shell">
+      <h2>Visão mensal interativa</h2>
+      <p class="helper-text">Janeiro é exibido por padrão. As setas deixam claro que você pode avançar ou voltar o mês. Datas douradas são clicáveis e revelam o plano completo da campanha.</p>
 
-    <nav class="month-nav" aria-label="Navegação mensal">
-      <h2>Pule direto para o mês desejado</h2>
-      <ul>
-        <li><a href="#janeiro">Janeiro</a></li>
-        <li><a href="#fevereiro">Fevereiro</a></li>
-        <li><a href="#março">Março</a></li>
-        <li><a href="#abril">Abril</a></li>
-        <li><a href="#maio">Maio</a></li>
-        <li><a href="#junho">Junho</a></li>
-        <li><a href="#julho">Julho</a></li>
-        <li><a href="#agosto">Agosto</a></li>
-        <li><a href="#setembro">Setembro</a></li>
-        <li><a href="#outubro">Outubro</a></li>
-        <li><a href="#novembro">Novembro</a></li>
-        <li><a href="#dezembro">Dezembro</a></li>
-      </ul>
-    </nav>
+      <div class="month-switcher">
+        <button type="button" id="previous-month" aria-label="Mês anterior">
+          <span class="icon">&#8592;</span>
+          <span>Mês anterior</span>
+        </button>
+        <div class="month-title">
+          <small>Planejamento 2026</small>
+          <strong id="month-title">Janeiro</strong>
+        </div>
+        <button type="button" id="next-month" aria-label="Próximo mês">
+          <span>Próximo mês</span>
+          <span class="icon">&#8594;</span>
+        </button>
+      </div>
 
-    <section class="calendar">
-<!-- Janeiro -->
-<article class="month-block" id="janeiro">
-  <header class="month-header">
-    <h3>Janeiro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day has-event">
-      <span class="date">1</span>
-      <span class="event-chip">Ano Novo</span>
-    </td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day has-event">
-      <span class="date">15</span>
-      <span class="event-chip">Volta às Aulas</span>
-    </td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day"><span class="date">31</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>01/01</strong> — Ano Novo / Spike Day. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Spike em 1º de Janeiro e Pós-Festas. Liquidações iniciais.
-    <br><span class="categories">Categorias-chave:</span> Geral, Moda, Viagens, Casa
-  </li>
-  <li>
-    <strong>15/01</strong> — Volta às Aulas (Pico 1). <em>Iniciar planejamento: 39 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Material escolar, Eletrônicos (tablets, notebooks) e Moda Infantil.
-    <br><span class="categories">Categorias-chave:</span> Material Escolar, Eletrônicos, Moda Infantil, Mobiliário
-  </li>
-</ul>
-  </div>
-</article>
+      <div class="day-names">
+        <span>Dom</span>
+        <span>Seg</span>
+        <span>Ter</span>
+        <span>Qua</span>
+        <span>Qui</span>
+        <span>Sex</span>
+        <span>Sáb</span>
+      </div>
 
-<!-- Fevereiro -->
-<article class="month-block" id="fevereiro">
-  <header class="month-header">
-    <h3>Fevereiro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">8</span>
-      <span class="event-chip">Spike Day</span>
-    </td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day has-event">
-      <span class="date">14</span>
-      <span class="event-chip">Valentine's</span>
-    </td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day has-event">
-      <span class="date">17</span>
-      <span class="event-chip">Carnaval</span>
-    </td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>08/02</strong> — Spike Day. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Promoção rápida focada em conversão.
-    <br><span class="categories">Categorias-chave:</span> Geral, Beleza, Eletrônicos
-  </li>
-  <li>
-    <strong>14/02</strong> — Valentine's Day. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Moda Íntima, Presentes românticos, Gastronomia e Viagens.
-    <br><span class="categories">Categorias-chave:</span> Moda e Acessórios, Viagens, Beleza, Jóias
-  </li>
-  <li>
-    <strong>17/02</strong> — Carnaval. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Fantasias, Viagens, Maquiagem e Bebidas.
-    <br><span class="categories">Categorias-chave:</span> Viagens, Festa e Fantasia, Maquiagem, Alimentos e Bebidas
-  </li>
-</ul>
-  </div>
-</article>
+      <div id="calendar-grid" class="calendar-grid" aria-live="polite"></div>
 
-<!-- Março -->
-<article class="month-block" id="março">
-  <header class="month-header">
-    <h3>Março 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">8</span>
-      <span class="event-chip">Dia da Mulher</span>
-    </td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">15</span>
-      <span class="event-chip">Consumidor</span>
-    </td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day"><span class="date">31</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>08/03</strong> — Dia da Mulher. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Beleza, Auto-cuidado, Perfumes e Presentes de Luxo.
-    <br><span class="categories">Categorias-chave:</span> Beleza e Cosméticos, Auto-cuidado, Presentes, Moda
-  </li>
-  <li>
-    <strong>15/03</strong> — Dia do Consumidor. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Maior evento promocional do 1º semestre. Descontos agressivos.
-    <br><span class="categories">Categorias-chave:</span> Eletrônicos, Casa e Decoração, Geral
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Abril -->
-<article class="month-block" id="abril">
-  <header class="month-header">
-    <h3>Abril 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day has-event">
-      <span class="date">1</span>
-      <span class="event-chip">Outono/Inverno</span>
-    </td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day has-event">
-      <span class="date">4</span>
-      <span class="event-chip">Páscoa</span>
-    </td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">5</span>
-      <span class="event-chip">Spike Day</span>
-    </td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>01/04</strong> — Virada Outono/Inverno. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Lançamento de coleções, aquecedores, cobertores, decoração de casa.
-    <br><span class="categories">Categorias-chave:</span> Moda Inverno, Casa e Decoração, Eletrodomésticos
-  </li>
-  <li>
-    <strong>04/04</strong> — Páscoa. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Chocolates, Confeitaria, Brinquedos e Artigos de Mesa.
-    <br><span class="categories">Categorias-chave:</span> Alimentos e Bebidas, Brinquedos, Casa e Decoração
-  </li>
-  <li>
-    <strong>05/04</strong> — Spike Day. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Promoção rápida focada em conversão.
-    <br><span class="categories">Categorias-chave:</span> Geral, Moda, Eletrônicos
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Maio -->
-<article class="month-block" id="maio">
-  <header class="month-header">
-    <h3>Maio 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">10</span>
-      <span class="event-chip">Dia das Mães</span>
-    </td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">31</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>10/05</strong> — Dia das Mães. <em>Iniciar planejamento: 39 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Presentes, Tecnologia, Moda, Beleza e Viagens.
-    <br><span class="categories">Categorias-chave:</span> Moda, Beleza, Eletrônicos, Jóias, Flores
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Junho -->
-<article class="month-block" id="junho">
-  <header class="month-header">
-    <h3>Junho 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day has-event">
-      <span class="date">12</span>
-      <span class="event-chip">Namorados</span>
-    </td>
-    <td class="day"><span class="date">13</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">21</span>
-      <span class="event-chip">Inverno/Juninas</span>
-    </td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>12/06</strong> — Dia dos Namorados. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Presentes para Casais, Moda Inverno e Enxoval.
-    <br><span class="categories">Categorias-chave:</span> Moda e Acessórios, Beleza, Cama/Mesa/Banho, Gastronomia
-  </li>
-  <li>
-    <strong>21/06</strong> — Início Inverno / Festas Juninas. <em>Iniciar planejamento: 39 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Moda Inverno, Itens de Conforto e Artigos de Festa Junina.
-    <br><span class="categories">Categorias-chave:</span> Moda Inverno, Alimentos, Casa e Decoração
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Julho -->
-<article class="month-block" id="julho">
-  <header class="month-header">
-    <h3>Julho 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day has-event">
-      <span class="date">6</span>
-      <span class="event-chip">Spike Day</span>
-    </td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day has-event">
-      <span class="date">15</span>
-      <span class="event-chip">Volta às Aulas</span>
-    </td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day"><span class="date">31</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>06/07</strong> — Spike Day. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Promoção rápida no meio das férias.
-    <br><span class="categories">Categorias-chave:</span> Geral, Brinquedos, Viagens
-  </li>
-  <li>
-    <strong>15/07</strong> — Volta às Aulas (Pico 2). <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Foco em Lazer, Viagem e Brinquedos.
-    <br><span class="categories">Categorias-chave:</span> Brinquedos, Viagens, Lazer, Material Escolar
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Agosto -->
-<article class="month-block" id="agosto">
-  <header class="month-header">
-    <h3>Agosto 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-  </tr>
-  <tr>
-    <td class="day has-event">
-      <span class="date">9</span>
-      <span class="event-chip">Dia dos Pais</span>
-    </td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day"><span class="date">31</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>09/08</strong> — Dia dos Pais. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Eletrônicos, Ferramentas, Perfumes e Hobbies.
-    <br><span class="categories">Categorias-chave:</span> Eletrônicos, Ferramentas, Perfumes, Moda Masculina
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Setembro -->
-<article class="month-block" id="setembro">
-  <header class="month-header">
-    <h3>Setembro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day has-event">
-      <span class="date">10</span>
-      <span class="event-chip">Pré-Black Friday</span>
-    </td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day has-event">
-      <span class="date">22</span>
-      <span class="event-chip">Primavera</span>
-    </td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day has-event">
-      <span class="date">28</span>
-      <span class="event-chip">MELIXP</span>
-    </td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>10/09</strong> — Spike Day / Pré-Black Friday. <em>Iniciar planejamento: 90 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Testar logística e aquecer audiência para Black Friday.
-    <br><span class="categories">Categorias-chave:</span> Geral, Logística, Estoque
-  </li>
-  <li>
-    <strong>22/09</strong> — Início da Primavera. <em>Iniciar planejamento: 29 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Lançamento de Moda Primavera/Verão e Artigos de Jardinagem.
-    <br><span class="categories">Categorias-chave:</span> Moda e Acessórios, Beleza, Jardinagem
-  </li>
-  <li>
-    <strong>28/09</strong> — MELIXP. <em>Iniciar planejamento: 90 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Evento de Mercado Livre. Estratégia pré-Black Friday, Logística e Estoque.
-    <br><span class="categories">Categorias-chave:</span> Geral, Logística, Estoque, E-commerce
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Outubro -->
-<article class="month-block" id="outubro">
-  <header class="month-header">
-    <h3>Outubro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day has-event">
-      <span class="date">12</span>
-      <span class="event-chip">Crianças</span>
-    </td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day has-event">
-      <span class="date">15</span>
-      <span class="event-chip">Professores</span>
-    </td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day has-event">
-      <span class="date">31</span>
-      <span class="event-chip">Halloween</span>
-    </td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>12/10</strong> — Dia das Crianças. <em>Iniciar planejamento: 39 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Brinquedos, Games, Fantasias e Eletrônicos Infantis.
-    <br><span class="categories">Categorias-chave:</span> Brinquedos, Games, Fantasia, Moda Infantil
-  </li>
-  <li>
-    <strong>15/10</strong> — Dia dos Professores. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Presentes de baixo/médio ticket.
-    <br><span class="categories">Categorias-chave:</span> Presentes, Livros, Papelaria
-  </li>
-  <li>
-    <strong>31/10</strong> — Halloween. <em>Iniciar planejamento: 19 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Fantasias, Decoração e Maquiagem temática.
-    <br><span class="categories">Categorias-chave:</span> Fantasia, Decoração, Maquiagem
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Novembro -->
-<article class="month-block" id="novembro">
-  <header class="month-header">
-    <h3>Novembro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day"><span class="date">25</span></td>
-    <td class="day"><span class="date">26</span></td>
-    <td class="day has-event">
-      <span class="date">27</span>
-      <span class="event-chip">Black Friday</span>
-    </td>
-    <td class="day"><span class="date">28</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day has-event">
-      <span class="date">30</span>
-      <span class="event-chip">Cyber Monday</span>
-    </td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>27/11</strong> — BLACK FRIDAY (PICO MÁXIMO). <em>Iniciar planejamento: 90 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Grandes ofertas em todas as categorias. Foco em Tecnologia e Gadgets.
-    <br><span class="categories">Categorias-chave:</span> Todas, Eletrônicos, Moda, Casa, Beleza
-  </li>
-  <li>
-    <strong>30/11</strong> — Cyber Monday. <em>Iniciar planejamento: 90 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Queima de estoque pós-BF com foco em produtos online e Tecnologia.
-    <br><span class="categories">Categorias-chave:</span> Eletrônicos, Informática, Acessórios
-  </li>
-</ul>
-  </div>
-</article>
-
-<!-- Dezembro -->
-<article class="month-block" id="dezembro">
-  <header class="month-header">
-    <h3>Dezembro 2026</h3>
-  </header>
-  <table class="calendar-table">
-    <thead>
-      <tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr>
-    </thead>
-    <tbody>
-  <tr>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day"><span class="date">1</span></td>
-    <td class="day"><span class="date">2</span></td>
-    <td class="day"><span class="date">3</span></td>
-    <td class="day"><span class="date">4</span></td>
-    <td class="day"><span class="date">5</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">6</span></td>
-    <td class="day"><span class="date">7</span></td>
-    <td class="day"><span class="date">8</span></td>
-    <td class="day"><span class="date">9</span></td>
-    <td class="day"><span class="date">10</span></td>
-    <td class="day"><span class="date">11</span></td>
-    <td class="day"><span class="date">12</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">13</span></td>
-    <td class="day"><span class="date">14</span></td>
-    <td class="day"><span class="date">15</span></td>
-    <td class="day"><span class="date">16</span></td>
-    <td class="day"><span class="date">17</span></td>
-    <td class="day"><span class="date">18</span></td>
-    <td class="day"><span class="date">19</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">20</span></td>
-    <td class="day"><span class="date">21</span></td>
-    <td class="day"><span class="date">22</span></td>
-    <td class="day"><span class="date">23</span></td>
-    <td class="day"><span class="date">24</span></td>
-    <td class="day has-event">
-      <span class="date">25</span>
-      <span class="event-chip">Natal</span>
-    </td>
-    <td class="day"><span class="date">26</span></td>
-  </tr>
-  <tr>
-    <td class="day"><span class="date">27</span></td>
-    <td class="day"><span class="date">28</span></td>
-    <td class="day"><span class="date">29</span></td>
-    <td class="day"><span class="date">30</span></td>
-    <td class="day"><span class="date">31</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-    <td class="day empty"><span class="date">&nbsp;</span></td>
-  </tr>
-    </tbody>
-  </table>
-  <div class="month-highlights">
-<h4>Destaques estratégicos</h4>
-<ul>
-  <li>
-    <strong>25/12</strong> — Natal. <em>Iniciar planejamento: 90 dias antes.</em>
-    <br><span class="focus">Foco comercial:</span> Presentes, Decoração e Planejamento de Ano Novo.
-    <br><span class="categories">Categorias-chave:</span> Brinquedos, Eletrônicos, Moda, Casa, Alimentos
-  </li>
-</ul>
-  </div>
-</article>
+      <div class="legend" aria-hidden="true">
+        <span><span class="dot" style="background: linear-gradient(160deg, rgba(253,185,39,0.92), rgba(255,225,140,0.92)); box-shadow: 0 0 12px rgba(253,185,39,0.55);"></span> Datas sazonais (clique para detalhes)</span>
+        <span><span class="dot" style="background: rgba(76,48,126,0.45);"></span> Dias livres</span>
+      </div>
     </section>
   </main>
-  <footer>
-    © 2026 — Calendário Estratégico de Vendas. Desenvolvido para operações de marketplace com foco em planejamento antecipado.
-  </footer>
+
+  <div class="modal-overlay" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button type="button" class="modal-close" aria-label="Fechar" id="close-modal">&times;</button>
+      <div id="modal-details"></div>
+    </div>
+  </div>
+
+  <script>
+    const YEAR = 2026;
+
+    const seasonalEvents = [
+      { id: 1, date: '01/01', month: 0, day: 1, event: 'Ano Novo / Spike Day', focus: 'Spike em 1º de Janeiro e pós-festas com liquidações agressivas.', timing: '19 dias', categories: ['Geral', 'Moda', 'Viagens', 'Casa'] },
+      { id: 2, date: '15/01', month: 0, day: 15, event: 'Volta às Aulas (Pico 1)', focus: 'Material escolar, eletrônicos para estudo e moda infantil para o retorno às aulas.', timing: '39 dias', categories: ['Material Escolar', 'Eletrônicos', 'Moda Infantil', 'Mobiliário'] },
+      { id: 3, date: '02/02', month: 1, day: 2, event: 'Spike Day Fevereiro', focus: 'Promoção tática no início de fevereiro focada em conversão imediata.', timing: '19 dias', categories: ['Geral', 'Beleza', 'Eletrônicos'] },
+      { id: 4, date: '14/02', month: 1, day: 14, event: 'Valentine\'s Day', focus: 'Moda íntima, presentes românticos, gastronomia e pacotes de viagem.', timing: '29 dias', categories: ['Moda e Acessórios', 'Viagens', 'Beleza', 'Jóias'] },
+      { id: 5, date: '17/02', month: 1, day: 17, event: 'Carnaval', focus: 'Fantasias, viagens, maquiagem temática e bebidas.', timing: '29 dias', categories: ['Viagens', 'Festa e Fantasia', 'Maquiagem', 'Alimentos e Bebidas'] },
+      { id: 26, date: '03/03', month: 2, day: 3, event: 'Spike Day Março', focus: 'Campanha relâmpago no começo de março para manter a tração pós-Carnaval.', timing: '19 dias', categories: ['Geral', 'Eletrônicos', 'Casa e Decoração'] },
+      { id: 6, date: '08/03', month: 2, day: 8, event: 'Dia da Mulher', focus: 'Beleza, autocuidado, perfumes e presentes premium.', timing: '29 dias', categories: ['Beleza e Cosméticos', 'Auto-cuidado', 'Presentes', 'Moda'] },
+      { id: 7, date: '15/03', month: 2, day: 15, event: 'Dia do Consumidor', focus: 'Maior evento promocional do 1º semestre com descontos agressivos.', timing: '29 dias', categories: ['Eletrônicos', 'Casa e Decoração', 'Geral'] },
+      { id: 8, date: '01/04', month: 3, day: 1, event: 'Virada Outono/Inverno', focus: 'Lançamento de coleções, aquecimento e decoração aconchegante.', timing: '19 dias', categories: ['Moda Inverno', 'Casa e Decoração', 'Eletrodomésticos'] },
+      { id: 9, date: '04/04', month: 3, day: 4, event: 'Páscoa', focus: 'Chocolates, confeitaria especial, brinquedos e artigos de mesa.', timing: '29 dias', categories: ['Alimentos e Bebidas', 'Brinquedos', 'Casa e Decoração'] },
+      { id: 10, date: '04/04', month: 3, day: 4, event: 'Spike Day Abril', focus: 'Campanha relâmpago sincronizada com a Páscoa para conversão rápida.', timing: '19 dias', categories: ['Geral', 'Moda', 'Eletrônicos'] },
+      { id: 27, date: '05/05', month: 4, day: 5, event: 'Spike Day Maio', focus: 'Ofertas rápidas para antecipar campanhas de Dia das Mães e renovar estoque leve.', timing: '19 dias', categories: ['Moda', 'Beleza', 'Eletrônicos', 'Presentes'] },
+      { id: 11, date: '10/05', month: 4, day: 10, event: 'Dia das Mães', focus: 'Presentes afetivos, tecnologia, moda, beleza e experiências de viagem.', timing: '39 dias', categories: ['Moda', 'Beleza', 'Eletrônicos', 'Jóias', 'Flores'] },
+      { id: 28, date: '06/06', month: 5, day: 6, event: 'Spike Day Junho', focus: 'Impulsionar combos de inverno e antecipar a comunicação do Dia dos Namorados.', timing: '19 dias', categories: ['Moda Inverno', 'Cama/Mesa/Banho', 'Beleza', 'Eletrônicos'] },
+      { id: 12, date: '12/06', month: 5, day: 12, event: 'Dia dos Namorados', focus: 'Presentes para casais, moda inverno e enxoval.', timing: '29 dias', categories: ['Moda e Acessórios', 'Beleza', 'Cama/Mesa/Banho', 'Gastronomia'] },
+      { id: 13, date: '21/06', month: 5, day: 21, event: 'Início do Inverno / Festas Juninas', focus: 'Moda inverno, itens de conforto e artigos de festa junina.', timing: '39 dias', categories: ['Moda Inverno', 'Alimentos', 'Casa e Decoração'] },
+      { id: 14, date: '07/07', month: 6, day: 7, event: 'Spike Day Julho', focus: 'Promoção rápida aproveitando o meio das férias.', timing: '19 dias', categories: ['Geral', 'Brinquedos', 'Viagens'] },
+      { id: 15, date: '15/07', month: 6, day: 15, event: 'Volta às Aulas (Pico 2)', focus: 'Lazer, viagem e brinquedos preparando a segunda onda escolar.', timing: '29 dias', categories: ['Brinquedos', 'Viagens', 'Lazer', 'Material Escolar'] },
+      { id: 29, date: '08/08', month: 7, day: 8, event: 'Spike Day Agosto', focus: 'Ofertas relâmpago para o último aquecimento do Dia dos Pais.', timing: '19 dias', categories: ['Eletrônicos', 'Ferramentas', 'Moda Masculina', 'Perfumes'] },
+      { id: 16, date: '09/08', month: 7, day: 9, event: 'Dia dos Pais', focus: 'Eletrônicos, ferramentas, perfumes e hobbies masculinos.', timing: '29 dias', categories: ['Eletrônicos', 'Ferramentas', 'Perfumes', 'Moda Masculina'] },
+      { id: 17, date: '09/09', month: 8, day: 9, event: 'Spike Day Setembro / Pré-Black Friday', focus: 'Aquecer audiência, testar logística e preparar estoque.', timing: '90 dias', categories: ['Geral', 'Logística', 'Estoque'] },
+      { id: 18, date: '22/09', month: 8, day: 22, event: 'Início da Primavera', focus: 'Coleções primavera/verão e artigos de jardinagem.', timing: '29 dias', categories: ['Moda e Acessórios', 'Beleza', 'Jardinagem'] },
+      { id: 19, date: '28/09', month: 8, day: 28, event: 'MELIXP', focus: 'Evento Mercado Livre com foco em Black Friday, logística e estoque.', timing: '90 dias', categories: ['Geral', 'Logística', 'Estoque', 'E-commerce'] },
+      { id: 30, date: '10/10', month: 9, day: 10, event: 'Spike Day Outubro', focus: 'Aquecimento para Dia das Crianças e Halloween com testes de criativos.', timing: '19 dias', categories: ['Brinquedos', 'Games', 'Fantasia', 'Moda Infantil'] },
+      { id: 20, date: '12/10', month: 9, day: 12, event: 'Dia das Crianças', focus: 'Brinquedos, games, fantasias e eletrônicos infantis.', timing: '39 dias', categories: ['Brinquedos', 'Games', 'Fantasia', 'Moda Infantil'] },
+      { id: 21, date: '15/10', month: 9, day: 15, event: 'Dia dos Professores', focus: 'Presentes de baixo e médio ticket para educadores.', timing: '19 dias', categories: ['Presentes', 'Livros', 'Papelaria'] },
+      { id: 22, date: '31/10', month: 9, day: 31, event: 'Halloween', focus: 'Fantasias temáticas, decoração e maquiagem especial.', timing: '19 dias', categories: ['Fantasia', 'Decoração', 'Maquiagem'] },
+      { id: 31, date: '11/11', month: 10, day: 11, event: 'Spike Day Novembro', focus: 'Esquenta oficial da Black Friday para treinar ofertas e algoritmos.', timing: '19 dias', categories: ['Eletrônicos', 'Casa', 'Moda', 'Beleza'] },
+      { id: 23, date: '27/11', month: 10, day: 27, event: 'Black Friday (Pico Máximo)', focus: 'Grande liquidação multicanal com foco em tecnologia e grandes ofertas.', timing: '90 dias', categories: ['Todas', 'Eletrônicos', 'Moda', 'Casa', 'Beleza'] },
+      { id: 24, date: '30/11', month: 10, day: 30, event: 'Cyber Monday', focus: 'Queima de estoque pós-Black Friday com ênfase em produtos online.', timing: '90 dias', categories: ['Eletrônicos', 'Informática', 'Acessórios'] },
+      { id: 32, date: '12/12', month: 11, day: 12, event: 'Spike Day Dezembro', focus: 'Impulsionar conversões finais antes do Natal com destaque para entregas rápidas.', timing: '19 dias', categories: ['Presentes', 'Eletrônicos', 'Moda', 'Casa', 'Alimentos'] },
+      { id: 25, date: '25/12', month: 11, day: 25, event: 'Natal', focus: 'Presentes, decoração e preparação de fim de ano.', timing: '90 dias', categories: ['Brinquedos', 'Eletrônicos', 'Moda', 'Casa', 'Alimentos'] }
+    ];
+
+    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+    const eventsByKey = new Map();
+    seasonalEvents.forEach(evt => {
+      const key = `${evt.month}-${evt.day}`;
+      if (!eventsByKey.has(key)) {
+        eventsByKey.set(key, []);
+      }
+      eventsByKey.get(key).push(evt);
+    });
+    eventsByKey.forEach(eventList => {
+      eventList.sort((a, b) => a.id - b.id);
+    });
+
+    let currentMonth = 0;
+
+    const monthTitleEl = document.getElementById('month-title');
+    const calendarGridEl = document.getElementById('calendar-grid');
+    const modalOverlay = document.getElementById('event-modal');
+    const modalDetails = document.getElementById('modal-details');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function updateMonthTitle() {
+      monthTitleEl.textContent = monthNames[currentMonth];
+    }
+
+    function renderCalendar() {
+      updateMonthTitle();
+      calendarGridEl.innerHTML = '';
+
+      const firstDayOfMonth = new Date(YEAR, currentMonth, 1).getDay();
+      const totalDays = new Date(YEAR, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'day placeholder';
+        calendarGridEl.appendChild(placeholder);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const eventKey = `${currentMonth}-${day}`;
+        const events = eventsByKey.get(eventKey);
+        const isEventDay = Array.isArray(events);
+        const dayEl = document.createElement(isEventDay ? 'button' : 'div');
+        dayEl.className = 'day';
+
+        const dayNumber = document.createElement('span');
+        dayNumber.className = 'day-number';
+        dayNumber.textContent = day;
+        dayEl.appendChild(dayNumber);
+
+        if (isEventDay) {
+          dayEl.classList.add('is-event');
+          dayEl.setAttribute('type', 'button');
+
+          const labelsWrapper = document.createElement('div');
+          labelsWrapper.className = 'event-labels';
+
+          events.forEach(event => {
+            const label = document.createElement('span');
+            label.className = 'event-label';
+            label.textContent = event.event;
+            labelsWrapper.appendChild(label);
+          });
+
+          dayEl.appendChild(labelsWrapper);
+
+          const ariaLabel = events.length === 1
+            ? `${events[0].event} em ${day} de ${monthNames[currentMonth]}`
+            : `Eventos em ${day} de ${monthNames[currentMonth]}: ${events.map(event => event.event).join(', ')}`;
+          dayEl.setAttribute('aria-label', ariaLabel);
+
+          dayEl.addEventListener('click', () => openEventModal(events));
+        }
+
+        calendarGridEl.appendChild(dayEl);
+      }
+    }
+
+    function parseTiming(timing) {
+      const match = timing.match(/(\d+)/);
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    function buildMiniCalendars(event) {
+      const daysToPrepare = parseTiming(event.timing);
+      const eventDate = new Date(YEAR, event.month, event.day);
+      const startDate = new Date(eventDate);
+      startDate.setDate(eventDate.getDate() - daysToPrepare + 1);
+
+      const months = [];
+      let cursorYear = startDate.getFullYear();
+      let cursorMonth = startDate.getMonth();
+      const endYear = eventDate.getFullYear();
+      const endMonth = eventDate.getMonth();
+
+      while (cursorYear < endYear || (cursorYear === endYear && cursorMonth <= endMonth)) {
+        months.push({ year: cursorYear, month: cursorMonth });
+        cursorMonth += 1;
+        if (cursorMonth > 11) {
+          cursorMonth = 0;
+          cursorYear += 1;
+        }
+      }
+
+      const planningStart = startDate.getTime();
+      const planningEnd = eventDate.getTime();
+
+      return months.map(({ year, month }) => {
+        const monthName = monthNames[month] || new Date(year, month, 1).toLocaleDateString('pt-BR', { month: 'long' });
+        const totalDays = new Date(year, month + 1, 0).getDate();
+        const firstWeekDay = new Date(year, month, 1).getDay();
+
+        const cells = [];
+        const weekLabels = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+        for (const label of weekLabels) {
+          cells.push(`<span class="label">${label}</span>`);
+        }
+
+        for (let i = 0; i < firstWeekDay; i++) {
+          cells.push('<span class="empty"></span>');
+        }
+
+        for (let day = 1; day <= totalDays; day++) {
+          const dateInstance = new Date(year, month, day);
+          const time = dateInstance.getTime();
+          const classes = [];
+          if (time >= planningStart && time <= planningEnd) {
+            classes.push('planning');
+          }
+          if (time === planningEnd) {
+            classes.push('event-day');
+          }
+          cells.push(`<span class="${classes.join(' ')}">${day}</span>`);
+        }
+
+        return `
+          <div class="mini-month">
+            <h5>${monthName} ${year}</h5>
+            <div class="mini-grid">${cells.join('')}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openEventModal(events) {
+      const eventList = Array.isArray(events) ? events : [events];
+
+      if (eventList.length === 1) {
+        const event = eventList[0];
+        const miniCalendars = buildMiniCalendars(event);
+        modalDetails.innerHTML = `
+          <div class="modal-header">
+            <h3 id="modal-title">${event.event}</h3>
+            <p>${event.date} de ${monthNames[event.month]} &bull; ${event.timing} de preparação recomendada</p>
+          </div>
+
+          <div class="modal-section timing-box">
+            <h4>Início sugerido</h4>
+            <p>Para chegar com força na data principal, reserve ${event.timing} de antecedência para estoque, campanhas e operação.</p>
+            <strong>${event.timing}</strong>
+          </div>
+
+          <div class="modal-section">
+            <h4>Foco estratégico</h4>
+            <p>${event.focus}</p>
+          </div>
+
+          <div class="modal-section">
+            <h4>Categorias em alta</h4>
+            <div class="chip-list">
+              ${event.categories.map(category => `<span class="chip">${category}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Calendário de preparação</h4>
+            <p>Os dias destacados indicam o período dedicado à preparação desta campanha.</p>
+            <div class="mini-calendars">${miniCalendars}</div>
+            <div class="mini-legend">
+              <span><span class="swatch" style="background: rgba(253,185,39,0.18); border: 1px solid rgba(253,185,39,0.35);"></span> Dias de preparação</span>
+              <span><span class="swatch" style="background: linear-gradient(160deg, rgba(253,185,39,0.9), rgba(255,225,140,0.9)); border: 1px solid rgba(253,185,39,0.95);"></span> Data do evento</span>
+            </div>
+          </div>
+        `;
+      } else {
+        const firstEvent = eventList[0];
+        const eventBlocks = eventList.map(event => {
+          const miniCalendars = buildMiniCalendars(event);
+          return `
+            <article class="modal-event">
+              <h4 class="modal-event-title">${event.event}</h4>
+              <p class="modal-event-date">${event.date} de ${monthNames[event.month]} &bull; ${event.timing} de preparação recomendada</p>
+
+              <div class="modal-section timing-box">
+                <h4>Início sugerido</h4>
+                <p>Para chegar com força na data principal, reserve ${event.timing} de antecedência para estoque, campanhas e operação.</p>
+                <strong>${event.timing}</strong>
+              </div>
+
+              <div class="modal-section">
+                <h4>Foco estratégico</h4>
+                <p>${event.focus}</p>
+              </div>
+
+              <div class="modal-section">
+                <h4>Categorias em alta</h4>
+                <div class="chip-list">
+                  ${event.categories.map(category => `<span class="chip">${category}</span>`).join('')}
+                </div>
+              </div>
+
+              <div class="modal-section">
+                <h4>Calendário de preparação</h4>
+                <p>Os dias destacados indicam o período dedicado à preparação desta campanha.</p>
+                <div class="mini-calendars">${miniCalendars}</div>
+                <div class="mini-legend">
+                  <span><span class="swatch" style="background: rgba(253,185,39,0.18); border: 1px solid rgba(253,185,39,0.35);"></span> Dias de preparação</span>
+                  <span><span class="swatch" style="background: linear-gradient(160deg, rgba(253,185,39,0.9), rgba(255,225,140,0.9)); border: 1px solid rgba(253,185,39,0.95);"></span> Data do evento</span>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('<hr class="modal-divider">');
+
+        modalDetails.innerHTML = `
+          <div class="modal-header">
+            <h3 id="modal-title">Campanhas desta data</h3>
+            <p>${eventList.length} campanhas planejadas para ${firstEvent.date} de ${monthNames[firstEvent.month]}</p>
+          </div>
+          ${eventBlocks}
+        `;
+      }
+
+      modalOverlay.classList.add('visible');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('visible');
+      modalDetails.innerHTML = '';
+    }
+
+    document.getElementById('previous-month').addEventListener('click', () => {
+      currentMonth = (currentMonth - 1 + 12) % 12;
+      renderCalendar();
+    });
+
+    document.getElementById('next-month').addEventListener('click', () => {
+      currentMonth = (currentMonth + 1) % 12;
+      renderCalendar();
+    });
+
+    modalOverlay.addEventListener('click', (event) => {
+      if (event.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+        closeModal();
+      }
+    });
+
+    renderCalendar();
+  </script>
 </body>
 </html>
