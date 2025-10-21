@@ -179,6 +179,8 @@
     }
 
     .day {
+      appearance: none;
+      -webkit-appearance: none;
       background: rgba(76, 48, 126, 0.28);
       border-radius: 18px;
       min-height: 130px;
@@ -189,12 +191,36 @@
       justify-content: flex-start;
       border: 1px solid rgba(253, 185, 39, 0.18);
       position: relative;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .day:focus-visible {
+      outline: 2px solid rgba(253, 185, 39, 0.7);
+      outline-offset: 4px;
     }
 
     .day.placeholder {
       background: transparent;
       border-color: transparent;
+      cursor: default;
+    }
+
+    .day.empty {
+      border-style: dashed;
+      border-color: rgba(253, 185, 39, 0.18);
+      background: rgba(76, 48, 126, 0.18);
+    }
+
+    .day.empty:hover,
+    .day.empty:focus-visible {
+      transform: translateY(-3px);
+      background: rgba(76, 48, 126, 0.32);
+      box-shadow: 0 16px 32px rgba(8, 3, 20, 0.35);
     }
 
     .day-number {
@@ -232,10 +258,44 @@
       text-transform: uppercase;
     }
 
+    .event-label.custom {
+      background: rgba(130, 82, 210, 0.22);
+      border-radius: 8px;
+      padding: 0.2rem 0.4rem;
+      color: #1b0d3b;
+    }
+
     .day.is-event:hover,
     .day.is-event:focus-visible {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(253, 185, 39, 0.55);
+    }
+
+    .day.is-custom {
+      background: linear-gradient(160deg, rgba(130, 82, 210, 0.95), rgba(180, 136, 255, 0.92));
+      border: 1px solid rgba(194, 158, 255, 0.8);
+      box-shadow: 0 14px 36px rgba(120, 80, 210, 0.45);
+      color: #fdfcff;
+    }
+
+    .day.is-custom .day-number {
+      color: #fefbff;
+    }
+
+    .day.is-custom .event-label {
+      color: #1b0d3b;
+    }
+
+    .day.is-custom:hover,
+    .day.is-custom:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 42px rgba(120, 80, 210, 0.65);
+    }
+
+    .day.has-custom {
+      border-width: 2px;
+      border-color: rgba(194, 158, 255, 0.9);
+      box-shadow: 0 22px 42px rgba(94, 56, 168, 0.45);
     }
 
     @keyframes event-blink {
@@ -250,7 +310,9 @@
     }
 
     .day.is-event:hover .day-number,
-    .day.is-event:focus-visible .day-number {
+    .day.is-event:focus-visible .day-number,
+    .day.is-custom:hover .day-number,
+    .day.is-custom:focus-visible .day-number {
       animation: event-blink 0.9s linear infinite;
     }
 
@@ -274,6 +336,11 @@
       height: 14px;
       border-radius: 50%;
       display: inline-block;
+    }
+
+    .legend .dot.custom {
+      background: linear-gradient(160deg, rgba(130, 82, 210, 0.95), rgba(180, 136, 255, 0.95));
+      box-shadow: 0 0 12px rgba(130, 82, 210, 0.55);
     }
 
     /* Modal */
@@ -479,11 +546,23 @@
       font-weight: 700;
     }
 
+    .mini-grid span.planning.custom {
+      background: rgba(182, 140, 255, 0.22);
+      border: 1px solid rgba(200, 165, 255, 0.45);
+      color: #f5edff;
+    }
+
     .mini-grid span.event-day {
       background: linear-gradient(160deg, rgba(253, 185, 39, 0.9), rgba(255, 225, 140, 0.9));
       border: 1px solid rgba(253, 185, 39, 0.95);
       color: #1d1032;
       font-weight: 800;
+    }
+
+    .mini-grid span.event-day.custom {
+      background: linear-gradient(160deg, rgba(130, 82, 210, 0.95), rgba(180, 136, 255, 0.95));
+      border: 1px solid rgba(180, 136, 255, 0.95);
+      color: #1b0d3b;
     }
 
     .mini-legend {
@@ -505,6 +584,158 @@
       height: 14px;
       border-radius: 4px;
       display: inline-block;
+    }
+
+    .mini-legend .swatch.event-gold {
+      background: linear-gradient(160deg, rgba(253, 185, 39, 0.9), rgba(255, 225, 140, 0.9));
+      border: 1px solid rgba(253, 185, 39, 0.95);
+    }
+
+    .mini-legend .swatch.planning-gold {
+      background: rgba(253, 185, 39, 0.18);
+      border: 1px solid rgba(253, 185, 39, 0.35);
+    }
+
+    .mini-legend .swatch.event-custom {
+      background: linear-gradient(160deg, rgba(130, 82, 210, 0.95), rgba(180, 136, 255, 0.95));
+      border: 1px solid rgba(180, 136, 255, 0.95);
+    }
+
+    .mini-legend .swatch.planning-custom {
+      background: rgba(182, 140, 255, 0.22);
+      border: 1px solid rgba(200, 165, 255, 0.45);
+    }
+
+    .modal-event.custom .modal-event-title,
+    .modal-header .badge-custom {
+      color: rgba(200, 170, 255, 0.95);
+    }
+
+    .modal-event.custom .timing-box,
+    .timing-box.custom {
+      background: linear-gradient(135deg, rgba(182, 140, 255, 0.22), rgba(135, 91, 210, 0.22));
+      border: 1px solid rgba(200, 165, 255, 0.4);
+    }
+
+    .modal-event.custom .chip,
+    .custom-chip {
+      background: rgba(182, 140, 255, 0.25);
+      border: 1px solid rgba(200, 165, 255, 0.35);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08rem;
+      text-transform: uppercase;
+      background: rgba(253, 185, 39, 0.18);
+      border: 1px solid rgba(253, 185, 39, 0.35);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge.badge-custom {
+      background: rgba(182, 140, 255, 0.22);
+      border-color: rgba(200, 165, 255, 0.45);
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-actions button {
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .modal-actions .primary {
+      background: linear-gradient(160deg, rgba(253, 185, 39, 0.9), rgba(255, 225, 140, 0.9));
+      color: #1d1032;
+      border-color: rgba(253, 185, 39, 0.95);
+    }
+
+    .modal-actions .secondary {
+      background: rgba(82, 57, 129, 0.35);
+      border-color: rgba(200, 165, 255, 0.35);
+      color: var(--text-main);
+    }
+
+    .modal-actions .danger {
+      background: rgba(242, 112, 122, 0.2);
+      border-color: rgba(242, 112, 122, 0.55);
+      color: #ffb8bf;
+    }
+
+    .modal-actions button:hover,
+    .modal-actions button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(8, 3, 20, 0.35);
+    }
+
+    .custom-event-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+
+    .custom-event-form .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .custom-event-form label {
+      font-size: 0.85rem;
+      letter-spacing: 0.08rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .custom-event-form input,
+    .custom-event-form textarea {
+      background: rgba(24, 10, 44, 0.75);
+      border: 1px solid rgba(200, 165, 255, 0.25);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+      min-height: 48px;
+    }
+
+    .custom-event-form textarea {
+      min-height: 120px;
+    }
+
+    .custom-event-form input:focus-visible,
+    .custom-event-form textarea:focus-visible {
+      outline: 2px solid rgba(200, 165, 255, 0.45);
+      border-color: rgba(200, 165, 255, 0.45);
+    }
+
+    .custom-event-helper {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: -0.25rem;
+    }
+
+    .custom-event-helper.error {
+      color: #ff9aa5;
+      margin-top: 0;
     }
 
     @media (max-width: 768px) {
@@ -540,11 +771,78 @@
         display: none;
       }
     }
+
+    @media (max-width: 600px) {
+      .calendar-shell {
+        padding: 1.25rem 1rem 2rem;
+      }
+
+      .day {
+        min-height: 95px;
+        padding: 0.6rem;
+      }
+
+      .day-number {
+        font-size: 1.35rem;
+      }
+
+      .day .event-label {
+        font-size: 0.75rem;
+      }
+
+      .day-names,
+      .calendar-grid {
+        gap: 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 3.5rem 1rem 2.5rem;
+      }
+
+      header h1 {
+        letter-spacing: 0.14rem;
+      }
+
+      header p {
+        font-size: 0.95rem;
+      }
+
+      .calendar-shell {
+        padding: 1rem 0.75rem 1.5rem;
+      }
+
+      .month-switcher {
+        gap: 1rem;
+      }
+
+      .day-names {
+        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        gap: 0.35rem;
+        font-size: 0.75rem;
+      }
+
+      .calendar-grid {
+        grid-template-columns: repeat(7, minmax(70px, 1fr));
+        gap: 0.35rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+
+      .day {
+        min-height: 90px;
+      }
+
+      .day.empty {
+        min-height: 85px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1><span>Calendário</span> Sazonal 2026</h1>
+    <h1><span>Marketplace</span> Strategy 2026</h1>
     <p>
       Calendário estratégico com todos os marcos sazonais do ano. Use as setas evidenciadas para navegar mês a mês e clique nas datas em dourado para ver as ações recomendadas, categorias prioritárias e o plano visual de preparação.
     </p>
@@ -583,8 +881,9 @@
       <div id="calendar-grid" class="calendar-grid" aria-live="polite"></div>
 
       <div class="legend" aria-hidden="true">
-        <span><span class="dot" style="background: linear-gradient(160deg, rgba(253,185,39,0.92), rgba(255,225,140,0.92)); box-shadow: 0 0 12px rgba(253,185,39,0.55);"></span> Datas sazonais (clique para detalhes)</span>
-        <span><span class="dot" style="background: rgba(76,48,126,0.45);"></span> Dias livres</span>
+        <span><span class="dot" style="background: linear-gradient(160deg, rgba(253,185,39,0.92), rgba(255,225,140,0.92)); box-shadow: 0 0 12px rgba(253,185,39,0.55);"></span> Datas sazonais oficiais</span>
+        <span><span class="dot custom"></span> Datas personalizadas (visão interna)</span>
+        <span><span class="dot" style="background: rgba(76,48,126,0.45);"></span> Dias livres (clique para criar)</span>
       </div>
     </section>
   </main>
@@ -636,17 +935,20 @@
 
     const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-    const eventsByKey = new Map();
+    const baseEventsByKey = new Map();
     seasonalEvents.forEach(evt => {
       const key = `${evt.month}-${evt.day}`;
-      if (!eventsByKey.has(key)) {
-        eventsByKey.set(key, []);
+      if (!baseEventsByKey.has(key)) {
+        baseEventsByKey.set(key, []);
       }
-      eventsByKey.get(key).push(evt);
+      baseEventsByKey.get(key).push(evt);
     });
-    eventsByKey.forEach(eventList => {
-      eventList.sort((a, b) => a.id - b.id);
+    baseEventsByKey.forEach(list => {
+      list.sort((a, b) => a.id - b.id);
     });
+
+    const CUSTOM_EVENTS_STORAGE_KEY = 'marketplace-strategy-custom-events-v1';
+    let customEventsByKey = loadCustomEvents();
 
     let currentMonth = 0;
 
@@ -655,6 +957,133 @@
     const modalOverlay = document.getElementById('event-modal');
     const modalDetails = document.getElementById('modal-details');
     const closeModalBtn = document.getElementById('close-modal');
+
+    function formatDate(day, month) {
+      return `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(value) {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      return String(value).replace(/[&<>"']/g, match => {
+        const replacements = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        };
+        return replacements[match] || match;
+      });
+    }
+
+    function extractNumberFromTiming(value) {
+      if (value === null || value === undefined) {
+        return 0;
+      }
+      const match = String(value).match(/(\d+)/);
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    function getPreparationDays(event) {
+      if (event && typeof event.preparationDays === 'number' && !Number.isNaN(event.preparationDays)) {
+        return event.preparationDays;
+      }
+      return extractNumberFromTiming(event?.timing);
+    }
+
+    function loadCustomEvents() {
+      const map = new Map();
+      if (typeof window === 'undefined') {
+        return map;
+      }
+      try {
+        const raw = window.localStorage.getItem(CUSTOM_EVENTS_STORAGE_KEY);
+        if (!raw) {
+          return map;
+        }
+        const parsed = JSON.parse(raw);
+        Object.keys(parsed).forEach(key => {
+          const stored = parsed[key];
+          if (!stored) {
+            return;
+          }
+          const month = Number(stored.month);
+          const day = Number(stored.day);
+          if (Number.isNaN(month) || Number.isNaN(day)) {
+            return;
+          }
+          const preparationDays = getPreparationDays(stored);
+          const categories = Array.isArray(stored.categories)
+            ? stored.categories
+            : String(stored.categories || '')
+                .split(/[,\n]/)
+                .map(category => category.trim())
+                .filter(Boolean);
+          const event = {
+            id: stored.id || `custom-${month}-${day}`,
+            month,
+            day,
+            date: stored.date || formatDate(day, month),
+            event: stored.event || 'Data personalizada',
+            focus: stored.focus || '',
+            timing: preparationDays === 1 ? '1 dia' : `${preparationDays} dias`,
+            categories,
+            preparationDays,
+            isCustom: true,
+          };
+          map.set(key, [event]);
+        });
+      } catch (error) {
+        console.warn('Não foi possível carregar os eventos personalizados.', error);
+      }
+      return map;
+    }
+
+    function persistCustomEvents() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const serialized = {};
+      customEventsByKey.forEach((events, key) => {
+        if (!events || !events.length) {
+          return;
+        }
+        const event = events[0];
+        serialized[key] = { ...event };
+      });
+      try {
+        window.localStorage.setItem(CUSTOM_EVENTS_STORAGE_KEY, JSON.stringify(serialized));
+      } catch (error) {
+        console.warn('Não foi possível salvar os eventos personalizados.', error);
+      }
+    }
+
+    function getCombinedEvents(month, day) {
+      const key = `${month}-${day}`;
+      const official = baseEventsByKey.get(key) || [];
+      const custom = customEventsByKey.get(key) || [];
+      const combined = [...official, ...custom];
+      if (combined.length > 1) {
+        combined.sort((a, b) => {
+          if (!!a.isCustom === !!b.isCustom) {
+            if (a.id === b.id) {
+              return 0;
+            }
+            return a.id > b.id ? 1 : -1;
+          }
+          return a.isCustom ? 1 : -1;
+        });
+      }
+      return combined;
+    }
+
+    function getCustomEvent(month, day) {
+      const key = `${month}-${day}`;
+      const stored = customEventsByKey.get(key);
+      return stored ? stored[0] : null;
+    }
 
     function updateMonthTitle() {
       monthTitleEl.textContent = monthNames[currentMonth];
@@ -674,20 +1103,35 @@
       }
 
       for (let day = 1; day <= totalDays; day++) {
-        const eventKey = `${currentMonth}-${day}`;
-        const events = eventsByKey.get(eventKey);
-        const isEventDay = Array.isArray(events);
-        const dayEl = document.createElement(isEventDay ? 'button' : 'div');
+        const events = getCombinedEvents(currentMonth, day);
+        const hasEvents = events.length > 0;
+        const hasOfficial = events.some(evt => !evt.isCustom);
+        const hasCustom = events.some(evt => evt.isCustom);
+
+        const dayEl = document.createElement('button');
+        dayEl.type = 'button';
         dayEl.className = 'day';
+        dayEl.dataset.month = currentMonth;
+        dayEl.dataset.day = day;
 
         const dayNumber = document.createElement('span');
         dayNumber.className = 'day-number';
         dayNumber.textContent = day;
         dayEl.appendChild(dayNumber);
 
-        if (isEventDay) {
-          dayEl.classList.add('is-event');
-          dayEl.setAttribute('type', 'button');
+        if (!hasEvents) {
+          dayEl.classList.add('empty');
+          dayEl.setAttribute('aria-label', `Adicionar data sazonal em ${day} de ${monthNames[currentMonth]}`);
+        } else {
+          if (hasOfficial) {
+            dayEl.classList.add('is-event');
+          }
+          if (hasCustom && !hasOfficial) {
+            dayEl.classList.add('is-custom');
+          }
+          if (hasCustom && hasOfficial) {
+            dayEl.classList.add('has-custom');
+          }
 
           const labelsWrapper = document.createElement('div');
           labelsWrapper.className = 'event-labels';
@@ -695,6 +1139,9 @@
           events.forEach(event => {
             const label = document.createElement('span');
             label.className = 'event-label';
+            if (event.isCustom) {
+              label.classList.add('custom');
+            }
             label.textContent = event.event;
             labelsWrapper.appendChild(label);
           });
@@ -705,21 +1152,22 @@
             ? `${events[0].event} em ${day} de ${monthNames[currentMonth]}`
             : `Eventos em ${day} de ${monthNames[currentMonth]}: ${events.map(event => event.event).join(', ')}`;
           dayEl.setAttribute('aria-label', ariaLabel);
-
-          dayEl.addEventListener('click', () => openEventModal(events));
         }
+
+        dayEl.addEventListener('click', () => {
+          if (hasEvents) {
+            openEventModal(events, { month: currentMonth, day });
+          } else {
+            openCustomEventForm({ month: currentMonth, day });
+          }
+        });
 
         calendarGridEl.appendChild(dayEl);
       }
     }
 
-    function parseTiming(timing) {
-      const match = timing.match(/(\d+)/);
-      return match ? parseInt(match[1], 10) : 0;
-    }
-
     function buildMiniCalendars(event) {
-      const daysToPrepare = parseTiming(event.timing);
+      const daysToPrepare = getPreparationDays(event);
       const eventDate = new Date(YEAR, event.month, event.day);
       const startDate = new Date(eventDate);
       startDate.setDate(eventDate.getDate() - daysToPrepare + 1);
@@ -763,9 +1211,15 @@
           const classes = [];
           if (time >= planningStart && time <= planningEnd) {
             classes.push('planning');
+            if (event.isCustom) {
+              classes.push('custom');
+            }
           }
           if (time === planningEnd) {
             classes.push('event-day');
+            if (event.isCustom) {
+              classes.push('custom');
+            }
           }
           cells.push(`<span class="${classes.join(' ')}">${day}</span>`);
         }
@@ -779,33 +1233,71 @@
       }).join('');
     }
 
-    function openEventModal(events) {
-      const eventList = Array.isArray(events) ? events : [events];
+    function buildLegendMarkup(event) {
+      const planningClass = event.isCustom ? 'swatch planning-custom' : 'swatch planning-gold';
+      const eventClass = event.isCustom ? 'swatch event-custom' : 'swatch event-gold';
+      return `
+        <div class="mini-legend">
+          <span><span class="${planningClass}"></span> Dias de preparação</span>
+          <span><span class="${eventClass}"></span> Data do evento</span>
+        </div>
+      `;
+    }
+
+    function openEventModal(events, context = {}) {
+      const eventList = Array.isArray(events) ? [...events] : [events];
+      if (!eventList.length) {
+        openCustomEventForm(context);
+        return;
+      }
+
+      const defaultMonth = eventList[0]?.month ?? currentMonth;
+      const defaultDay = eventList[0]?.day ?? 1;
+      const month = context.month ?? defaultMonth;
+      const day = context.day ?? defaultDay;
+      const formattedDate = formatDate(day, month);
+
+      eventList.sort((a, b) => {
+        if (!!a.isCustom === !!b.isCustom) {
+          if (a.id === b.id) {
+            return 0;
+          }
+          return a.id > b.id ? 1 : -1;
+        }
+        return a.isCustom ? 1 : -1;
+      });
+
+      const hasCustom = eventList.some(evt => evt.isCustom);
+      let modalHtml = '';
 
       if (eventList.length === 1) {
         const event = eventList[0];
         const miniCalendars = buildMiniCalendars(event);
-        modalDetails.innerHTML = `
+        const legend = buildLegendMarkup(event);
+        const chips = event.categories.map(category => `<span class="${event.isCustom ? 'chip custom-chip' : 'chip'}">${escapeHtml(category)}</span>`).join('');
+        const badge = event.isCustom ? '<span class="badge badge-custom">Interna</span>' : '<span class="badge">Oficial</span>';
+
+        modalHtml = `
           <div class="modal-header">
-            <h3 id="modal-title">${event.event}</h3>
-            <p>${event.date} de ${monthNames[event.month]} &bull; ${event.timing} de preparação recomendada</p>
+            <h3 id="modal-title">${escapeHtml(event.event)} ${badge}</h3>
+            <p>${formatDate(event.day, event.month)} de ${monthNames[event.month]} &bull; ${escapeHtml(event.timing)} de preparação recomendada</p>
           </div>
 
-          <div class="modal-section timing-box">
+          <div class="modal-section timing-box${event.isCustom ? ' custom' : ''}">
             <h4>Início sugerido</h4>
-            <p>Para chegar com força na data principal, reserve ${event.timing} de antecedência para estoque, campanhas e operação.</p>
-            <strong>${event.timing}</strong>
+            <p>Para chegar com força na data principal, reserve ${escapeHtml(event.timing)} de antecedência para estoque, campanhas e operação.</p>
+            <strong>${escapeHtml(event.timing)}</strong>
           </div>
 
           <div class="modal-section">
             <h4>Foco estratégico</h4>
-            <p>${event.focus}</p>
+            <p>${escapeHtml(event.focus)}</p>
           </div>
 
           <div class="modal-section">
             <h4>Categorias em alta</h4>
             <div class="chip-list">
-              ${event.categories.map(category => `<span class="chip">${category}</span>`).join('')}
+              ${chips}
             </div>
           </div>
 
@@ -813,36 +1305,59 @@
             <h4>Calendário de preparação</h4>
             <p>Os dias destacados indicam o período dedicado à preparação desta campanha.</p>
             <div class="mini-calendars">${miniCalendars}</div>
-            <div class="mini-legend">
-              <span><span class="swatch" style="background: rgba(253,185,39,0.18); border: 1px solid rgba(253,185,39,0.35);"></span> Dias de preparação</span>
-              <span><span class="swatch" style="background: linear-gradient(160deg, rgba(253,185,39,0.9), rgba(255,225,140,0.9)); border: 1px solid rgba(253,185,39,0.95);"></span> Data do evento</span>
-            </div>
+            ${legend}
           </div>
         `;
+
+        if (event.isCustom) {
+          modalHtml += `
+            <div class="modal-actions">
+              <button type="button" class="secondary" data-action="edit-custom" data-month="${event.month}" data-day="${event.day}">Editar data personalizada</button>
+              <button type="button" class="danger" data-action="remove-custom" data-month="${event.month}" data-day="${event.day}">Remover data</button>
+            </div>
+          `;
+        } else if (!hasCustom) {
+          modalHtml += `
+            <div class="modal-actions">
+              <button type="button" class="secondary" data-action="create-custom" data-month="${month}" data-day="${day}">Criar data personalizada para este dia</button>
+            </div>
+          `;
+        }
       } else {
-        const firstEvent = eventList[0];
         const eventBlocks = eventList.map(event => {
           const miniCalendars = buildMiniCalendars(event);
-          return `
-            <article class="modal-event">
-              <h4 class="modal-event-title">${event.event}</h4>
-              <p class="modal-event-date">${event.date} de ${monthNames[event.month]} &bull; ${event.timing} de preparação recomendada</p>
+          const legend = buildLegendMarkup(event);
+          const chips = event.categories.map(category => `<span class="${event.isCustom ? 'chip custom-chip' : 'chip'}">${escapeHtml(category)}</span>`).join('');
+          const badge = event.isCustom ? '<span class="badge badge-custom">Interna</span>' : '<span class="badge">Oficial</span>';
+          const actions = event.isCustom
+            ? `
+              <div class="modal-actions">
+                <button type="button" class="secondary" data-action="edit-custom" data-month="${event.month}" data-day="${event.day}">Editar data personalizada</button>
+                <button type="button" class="danger" data-action="remove-custom" data-month="${event.month}" data-day="${event.day}">Remover data</button>
+              </div>
+            `
+            : '';
 
-              <div class="modal-section timing-box">
+          return `
+            <article class="modal-event${event.isCustom ? ' custom' : ''}">
+              <h4 class="modal-event-title">${escapeHtml(event.event)} ${badge}</h4>
+              <p class="modal-event-date">${formatDate(event.day, event.month)} de ${monthNames[event.month]} &bull; ${escapeHtml(event.timing)} de preparação recomendada</p>
+
+              <div class="modal-section timing-box${event.isCustom ? ' custom' : ''}">
                 <h4>Início sugerido</h4>
-                <p>Para chegar com força na data principal, reserve ${event.timing} de antecedência para estoque, campanhas e operação.</p>
-                <strong>${event.timing}</strong>
+                <p>Para chegar com força na data principal, reserve ${escapeHtml(event.timing)} de antecedência para estoque, campanhas e operação.</p>
+                <strong>${escapeHtml(event.timing)}</strong>
               </div>
 
               <div class="modal-section">
                 <h4>Foco estratégico</h4>
-                <p>${event.focus}</p>
+                <p>${escapeHtml(event.focus)}</p>
               </div>
 
               <div class="modal-section">
                 <h4>Categorias em alta</h4>
                 <div class="chip-list">
-                  ${event.categories.map(category => `<span class="chip">${category}</span>`).join('')}
+                  ${chips}
                 </div>
               </div>
 
@@ -850,25 +1365,178 @@
                 <h4>Calendário de preparação</h4>
                 <p>Os dias destacados indicam o período dedicado à preparação desta campanha.</p>
                 <div class="mini-calendars">${miniCalendars}</div>
-                <div class="mini-legend">
-                  <span><span class="swatch" style="background: rgba(253,185,39,0.18); border: 1px solid rgba(253,185,39,0.35);"></span> Dias de preparação</span>
-                  <span><span class="swatch" style="background: linear-gradient(160deg, rgba(253,185,39,0.9), rgba(255,225,140,0.9)); border: 1px solid rgba(253,185,39,0.95);"></span> Data do evento</span>
-                </div>
+                ${legend}
               </div>
+              ${actions}
             </article>
           `;
         }).join('<hr class="modal-divider">');
 
-        modalDetails.innerHTML = `
+        modalHtml = `
           <div class="modal-header">
             <h3 id="modal-title">Campanhas desta data</h3>
-            <p>${eventList.length} campanhas planejadas para ${firstEvent.date} de ${monthNames[firstEvent.month]}</p>
+            <p>${eventList.length} campanhas planejadas para ${formattedDate} de ${monthNames[month]}</p>
           </div>
           ${eventBlocks}
         `;
+
+        if (!hasCustom) {
+          modalHtml += `
+            <div class="modal-actions">
+              <button type="button" class="secondary" data-action="create-custom" data-month="${month}" data-day="${day}">Adicionar data personalizada a este dia</button>
+            </div>
+          `;
+        }
       }
 
+      modalDetails.innerHTML = modalHtml;
       modalOverlay.classList.add('visible');
+
+      modalDetails.querySelectorAll('[data-action="create-custom"]').forEach(button => {
+        button.addEventListener('click', event => {
+          const targetMonth = Number(event.currentTarget.getAttribute('data-month'));
+          const targetDay = Number(event.currentTarget.getAttribute('data-day'));
+          openCustomEventForm({ month: targetMonth, day: targetDay });
+        });
+      });
+
+      modalDetails.querySelectorAll('[data-action="edit-custom"]').forEach(button => {
+        button.addEventListener('click', event => {
+          const targetMonth = Number(event.currentTarget.getAttribute('data-month'));
+          const targetDay = Number(event.currentTarget.getAttribute('data-day'));
+          const existingEvent = getCustomEvent(targetMonth, targetDay);
+          openCustomEventForm({ month: targetMonth, day: targetDay, existingEvent });
+        });
+      });
+
+      modalDetails.querySelectorAll('[data-action="remove-custom"]').forEach(button => {
+        button.addEventListener('click', event => {
+          const targetMonth = Number(event.currentTarget.getAttribute('data-month'));
+          const targetDay = Number(event.currentTarget.getAttribute('data-day'));
+          const key = `${targetMonth}-${targetDay}`;
+          const confirmed = window.confirm('Tem certeza de que deseja remover esta data personalizada?');
+          if (!confirmed) {
+            return;
+          }
+          customEventsByKey.delete(key);
+          persistCustomEvents();
+          renderCalendar();
+          closeModal();
+        });
+      });
+    }
+
+    function openCustomEventForm({ month, day, existingEvent = null }) {
+      const formattedDate = formatDate(day, month);
+      const title = existingEvent ? 'Editar data personalizada' : 'Criar data personalizada';
+      const nameValue = existingEvent ? escapeHtml(existingEvent.event) : '';
+      const focusValue = existingEvent ? escapeHtml(existingEvent.focus) : '';
+      const categoriesValue = existingEvent ? escapeHtml(existingEvent.categories.join(', ')) : '';
+      const preparationValue = existingEvent && typeof existingEvent.preparationDays === 'number' ? existingEvent.preparationDays : '';
+
+      modalDetails.innerHTML = `
+        <div class="modal-header">
+          <h3 id="modal-title">${title}</h3>
+          <p>${formattedDate} de ${monthNames[month]}</p>
+        </div>
+        <form id="custom-event-form" class="custom-event-form">
+          <div class="form-field">
+            <label for="custom-name">Nome da data</label>
+            <input id="custom-name" name="name" type="text" required value="${nameValue}" autocomplete="off" placeholder="Ex.: Mega Liquidação Interna">
+          </div>
+          <div class="form-field">
+            <label for="custom-preparation">Tempo de preparação (dias)</label>
+            <input id="custom-preparation" name="preparationDays" type="number" min="1" max="180" required value="${preparationValue}" placeholder="Ex.: 21">
+            <span class="custom-event-helper">Informe apenas o número de dias necessários antes da data principal.</span>
+          </div>
+          <div class="form-field">
+            <label for="custom-focus">Foco estratégico</label>
+            <textarea id="custom-focus" name="focus" required placeholder="Descreva as principais frentes comerciais e de marketing.">${focusValue}</textarea>
+          </div>
+          <div class="form-field">
+            <label for="custom-categories">Categorias em alta</label>
+            <textarea id="custom-categories" name="categories" required placeholder="Separe por vírgula ou linha: Moda, Beleza, Casa">${categoriesValue}</textarea>
+            <span class="custom-event-helper">Separe por vírgula ou quebra de linha para gerar os chips automaticamente.</span>
+          </div>
+          <p class="custom-event-helper error" id="custom-event-error" role="alert" aria-live="assertive"></p>
+          <div class="modal-actions">
+            <button type="submit" class="primary">${existingEvent ? 'Salvar alterações' : 'Salvar data personalizada'}</button>
+            <button type="button" class="secondary" data-action="cancel">Cancelar</button>
+            ${existingEvent ? '<button type="button" class="danger" data-action="remove">Remover data</button>' : ''}
+          </div>
+        </form>
+      `;
+
+      modalOverlay.classList.add('visible');
+
+      const form = document.getElementById('custom-event-form');
+      const errorEl = document.getElementById('custom-event-error');
+
+      const handleSave = event => {
+        event.preventDefault();
+        errorEl.textContent = '';
+
+        const formData = new FormData(form);
+        const name = String(formData.get('name') || '').trim();
+        const preparationDays = Number(formData.get('preparationDays'));
+        const focus = String(formData.get('focus') || '').trim();
+        const categoriesInput = String(formData.get('categories') || '').trim();
+        const categories = categoriesInput
+          .split(/[,\n]/)
+          .map(category => category.trim())
+          .filter(Boolean);
+
+        if (!name || !focus || !categories.length || !Number.isFinite(preparationDays) || preparationDays <= 0) {
+          errorEl.textContent = 'Preencha todos os campos obrigatórios com valores válidos.';
+          return;
+        }
+
+        const key = `${month}-${day}`;
+        const normalizedPreparation = Math.round(preparationDays);
+        const customEvent = {
+          id: existingEvent?.id || `custom-${month}-${day}`,
+          month,
+          day,
+          date: formatDate(day, month),
+          event: name,
+          focus,
+          timing: normalizedPreparation === 1 ? '1 dia' : `${normalizedPreparation} dias`,
+          categories,
+          preparationDays: normalizedPreparation,
+          isCustom: true,
+        };
+
+        customEventsByKey.set(key, [customEvent]);
+        persistCustomEvents();
+        renderCalendar();
+        openEventModal([customEvent], { month, day });
+      };
+
+      form.addEventListener('submit', handleSave);
+
+      const cancelBtn = form.querySelector('[data-action="cancel"]');
+      cancelBtn.addEventListener('click', () => {
+        if (existingEvent) {
+          openEventModal([existingEvent], { month, day });
+        } else {
+          closeModal();
+        }
+      });
+
+      if (existingEvent) {
+        const removeBtn = form.querySelector('[data-action="remove"]');
+        removeBtn.addEventListener('click', () => {
+          const confirmed = window.confirm('Tem certeza de que deseja remover esta data personalizada?');
+          if (!confirmed) {
+            return;
+          }
+          const key = `${month}-${day}`;
+          customEventsByKey.delete(key);
+          persistCustomEvents();
+          renderCalendar();
+          closeModal();
+        });
+      }
     }
 
     function closeModal() {
@@ -886,7 +1554,7 @@
       renderCalendar();
     });
 
-    modalOverlay.addEventListener('click', (event) => {
+    modalOverlay.addEventListener('click', event => {
       if (event.target === modalOverlay) {
         closeModal();
       }
@@ -894,7 +1562,7 @@
 
     closeModalBtn.addEventListener('click', closeModal);
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && modalOverlay.classList.contains('visible')) {
         closeModal();
       }
